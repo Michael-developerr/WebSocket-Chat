@@ -1,26 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './App.css';
+import React, { useState, useEffect, useRef } from "react";
+import "./App.css";
 
 function App() {
   const [messages, setMessages] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const ws = useRef(null);
 
   useEffect(() => {
-    // Подключаемся к WebSocket серверу
-    ws.current = new WebSocket('ws://localhost:8080');
+  
+    ws.current = new WebSocket("ws://localhost:8080");
 
     ws.current.onopen = () => {
-      console.log('Connected to WebSocket server');
+      console.log("Connected to WebSocket server");
     };
 
     ws.current.onmessage = (event) => {
-      // Получаем новое сообщение и добавляем в список
-      setMessages(prev => [...prev, event.data]);
+ 
+      setMessages((prev) => [...prev, event.data]);
     };
 
     ws.current.onclose = () => {
-      console.log('Disconnected from WebSocket server');
+      console.log("Disconnected from WebSocket server");
     };
 
     return () => {
@@ -33,12 +33,12 @@ function App() {
   const sendMessage = () => {
     if (inputValue.trim() && ws.current?.readyState === WebSocket.OPEN) {
       ws.current.send(inputValue);
-      setInputValue('');
+      setInputValue("");
     }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       sendMessage();
     }
   };
